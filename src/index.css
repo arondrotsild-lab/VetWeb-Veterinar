@@ -1,0 +1,164 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Палитра как у сайта для клиентов: кофе / терракота, зелень травы, сливочно-белый */
+:root {
+  --bg: #1F150E;
+  --bg-deep: #170F0A;
+  --panel: #2A1D14;
+  --panel-2: #33241A;
+  --nav: #4A3426;
+  --terracotta: #C0663F;
+  --terracotta-soft: #D9895F;
+  --grass: #7CB842;
+  --cream: #F5EEE3;
+  --income: #6EA83A;   /* проверено на различимость при дальтонизме */
+  --expense: #A8553A;
+}
+
+@layer base {
+  html { -webkit-tap-highlight-color: transparent; }
+  body {
+    @apply font-sans text-white;
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: rgba(124, 184, 66, 0.35); }
+}
+
+@layer components {
+  .card {
+    @apply rounded-3xl border border-white/10 p-5 md:p-6;
+    background: linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.02));
+  }
+  .card-warm {
+    @apply relative overflow-hidden rounded-3xl p-5 md:p-6 border border-amber-300/25 shadow-2xl shadow-black/30;
+    background: linear-gradient(135deg, #5A4331 0%, #3B2A1E 55%, #241911 100%);
+  }
+  .card-cream {
+    @apply rounded-3xl p-5 md:p-6 text-coffee-800;
+    background: var(--cream);
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 font-bold rounded-2xl px-5 py-3 transition-all duration-200 active:scale-[0.97] disabled:opacity-50 disabled:pointer-events-none;
+  }
+  .btn-green { @apply btn bg-green-500 hover:bg-green-400 text-white shadow-lg shadow-green-900/40; }
+  .btn-terra { @apply btn text-white shadow-lg shadow-black/30; background: var(--terracotta); }
+  .btn-terra:hover { background: var(--terracotta-soft); }
+  .btn-ghost { @apply btn bg-white/[0.06] hover:bg-white/[0.12] text-white border border-white/10; }
+  .btn-yellow { @apply btn text-[#1E140D]; background: #FACC15; }
+  .btn-yellow:hover { background: #FDE047; }
+  .input {
+    @apply w-full px-4 py-3 rounded-2xl border border-white/10 bg-white/[0.05] text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-green-500/70 focus:border-transparent transition;
+  }
+  .label { @apply block text-xs font-semibold text-white/60 mb-1.5 uppercase tracking-wider; }
+  .chip { @apply inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-bold; }
+  .eyebrow { @apply text-[10px] font-bold uppercase tracking-[0.25em] text-amber-200/70; }
+  .muted { @apply text-white/55; }
+}
+
+/* фон-сетка как в профиле клиента */
+.grid-bg {
+  background-image: linear-gradient(rgba(124,184,66,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(124,184,66,0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* Анимации */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.fade-up { animation: fadeUp .5s cubic-bezier(.2,.7,.2,1) backwards; animation-delay: var(--d, 0ms); }
+
+@keyframes livepulse { 0%,100% { box-shadow: 0 0 0 0 rgba(124,184,66,.55); } 50% { box-shadow: 0 0 0 10px rgba(124,184,66,0); } }
+.live-pulse { animation: livepulse 2s ease-in-out infinite; }
+
+@keyframes ring { 0%,100% { transform: rotate(0); } 10%,30% { transform: rotate(-14deg); } 20%,40% { transform: rotate(14deg); } 50% { transform: rotate(0); } }
+.bell { animation: ring 1.4s ease-in-out infinite; transform-origin: 50% 10%; }
+
+@keyframes slideUp { from { opacity: 0; transform: translateY(40px) scale(.98); } to { opacity: 1; transform: none; } }
+.slide-up { animation: slideUp .38s cubic-bezier(.2,.8,.2,1) both; }
+
+@keyframes shine { from { transform: translateX(-120%); } to { transform: translateX(220%); } }
+.medal-shine { position: relative; overflow: hidden; }
+.medal-shine::after {
+  content: ''; position: absolute; inset: 0; width: 40%;
+  background: linear-gradient(110deg, transparent, rgba(255,255,255,.35), transparent);
+  animation: shine 3.2s ease-in-out infinite;
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
+
+/* ═══ Мобильное приложение: экран не «гуляет» влево-вправо и не увеличивается ═══ */
+html, body { touch-action: manipulation; }
+@media (max-width: 767px) {
+  html, body { overflow-x: hidden; max-width: 100%; overscroll-behavior: none; }
+  body { -webkit-text-size-adjust: 100%; }
+  #root { overflow-x: hidden; }
+  @media (display-mode: standalone) { button, a { -webkit-user-select: none; user-select: none; } }
+}
+
+@media (max-width: 767px) {
+  .screen-in { animation: fadeUp .28s cubic-bezier(.2,.8,.2,1) backwards; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fade-up, .live-pulse, .bell, .slide-up, .screen-in, .medal-shine::after { animation: none !important; }
+}
+
+/* Настройка «Анимации: выкл» */
+.no-motion *, .no-motion *::before, .no-motion *::after { animation: none !important; transition: none !important; }
+
+/* Поле времени в графике: компактное, без лишней иконки */
+.time-input::-webkit-calendar-picker-indicator { display: none; }
+.time-input { -webkit-appearance: none; appearance: none; }
+
+/* ═══ Клавиатура на телефоне ═══
+   Пока врач печатает: нижнее меню спрятано, поле — над клавиатурой,
+   всплывающее окно поднимается к верху экрана и не уходит под клавиатуру. */
+input, textarea, select { scroll-margin: 96px 0 140px; }
+@media (max-width: 767px) {
+  .sheet { max-height: calc(var(--vvh, 100dvh) - env(safe-area-inset-top) - 12px); }
+  .incoming-sheet { max-height: calc(var(--vvh, 100dvh) - env(safe-area-inset-top) - 12px); overflow-y: auto; }
+  .kbd-open .tabbar { display: none; }
+  .kbd-open main { padding-bottom: 45vh !important; }
+  .kbd-open .sheet-wrap { top: var(--vvt, 0px); bottom: auto; height: var(--vvh, 100dvh); align-items: flex-start; padding: calc(env(safe-area-inset-top) + 8px) 0 8px; }
+  .kbd-open .sheet { border-radius: 1.5rem; max-height: 100%; }
+}
+
+/* Суммы денег: всегда в одну строку, цифры одинаковой ширины */
+.money { white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+/* ═══ Объёмные 3D-плитки разделов (мобильное приложение врача) ═══ */
+.tile3d {
+  box-shadow: 0 12px 22px -10px rgba(0,0,0,.6), 0 3px 6px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.45), inset 0 -3px 0 rgba(0,0,0,.22);
+  transform: translateZ(0);
+  transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+}
+.tile3d:active { transform: translateY(2px) scale(.97); box-shadow: 0 5px 10px -6px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.35), inset 0 -1px 0 rgba(0,0,0,.2); filter: brightness(.96); }
+.tile3d-gloss {
+  position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(120% 70% at 15% -10%, rgba(255,255,255,.45), rgba(255,255,255,0) 55%), linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,0) 40%);
+}
+.tile3d-icon {
+  position: absolute; line-height: 1; pointer-events: none;
+  filter: drop-shadow(0 8px 8px rgba(0,0,0,.35)) drop-shadow(0 2px 2px rgba(0,0,0,.25));
+  transform: rotate(-8deg);
+  animation: tileFloat 4s ease-in-out infinite;
+}
+.tile3d:nth-child(2n) .tile3d-icon { animation-delay: -1.3s; }
+.tile3d:nth-child(3n) .tile3d-icon { animation-delay: -2.6s; }
+@keyframes tileFloat { 0%, 100% { transform: rotate(-8deg) translateY(0); } 50% { transform: rotate(-4deg) translateY(-3px); } }
+.glass3d { box-shadow: inset 0 1px 0 rgba(255,255,255,.18), 0 8px 18px -12px rgba(0,0,0,.6); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+/* Сочная главная карточка «На линии» */
+.hero3d { box-shadow: 0 18px 32px -14px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,255,255,.4), inset 0 -4px 0 rgba(0,0,0,.2); }
+@media (prefers-reduced-motion: reduce) { .tile3d-icon { animation: none; } }
+
+/* ═══ Арабский язык: справа налево ═══ */
+[dir=rtl] body { font-family: 'Inter', 'Segoe UI', 'Noto Sans Arabic', Tahoma, sans-serif; }
+@media (min-width: 768px) {
+  [dir=rtl] aside.fixed { left: auto; right: 0; border-right: 0; border-left: 1px solid rgba(252, 211, 77, .15); }
+  [dir=rtl] main { padding-left: 0 !important; padding-right: 272px; }
+}
+[dir=rtl] .text-left { text-align: right; }
+[dir=rtl] .tile3d-icon.right-2 { right: auto; left: .5rem; }
+[dir=rtl] .tile3d-icon.right-3 { right: auto; left: .75rem; }
+[dir=rtl] .tile3d .pr-16 { padding-right: 0; padding-left: 4rem; }

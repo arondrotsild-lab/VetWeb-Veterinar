@@ -1,0 +1,22 @@
+{
+  "name": "ВетДом · Кабинет врача",
+  "short_name": "ВетДом Врач",
+  "description": "Кабинет ветеринара ВетДом: заказы рядом, доход, уровень и лига врачей.",
+  "lang": "ru",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#1F150E",
+  "theme_color": "#1F150E",
+  "categories": ["medical", "business", "productivity"],
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Новые заказы", "url": "/orders", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Мой доход", "url": "/finance", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] }
+  ]
+}
