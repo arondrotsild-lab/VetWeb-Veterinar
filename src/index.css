@@ -162,3 +162,56 @@ input, textarea, select { scroll-margin: 96px 0 140px; }
 [dir=rtl] .tile3d-icon.right-2 { right: auto; left: .5rem; }
 [dir=rtl] .tile3d-icon.right-3 { right: auto; left: .75rem; }
 [dir=rtl] .tile3d .pr-16 { padding-right: 0; padding-left: 4rem; }
+
+/* ═══ Объёмные иконки-приложения (как в приложении профессора Якупова):
+   толщина снизу, глянцевый блик, пробегающий блеск, покачивание, мягкое свечение ═══ */
+.i3d {
+  --c1: #fff; --c2: #f1e6d6; --d: #c9b49a; --glow: transparent;
+  position: relative; display: inline-grid; place-items: center; flex-shrink: 0; isolation: isolate;
+  background: linear-gradient(160deg, var(--c1) 0%, var(--c2) 100%);
+  box-shadow:
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.75),
+    inset 0 -6px 10px rgba(0, 0, 0, 0.16),
+    0 1px 0 var(--d), 0 2px 0 var(--d), 0 3px 0 var(--d), 0 4px 0 var(--d), 0 5px 0 var(--d),
+    0 14px 20px -8px rgba(0, 0, 0, 0.55), 0 0 24px -4px var(--glow);
+  transform: perspective(260px) rotateX(9deg);
+  transition: transform 0.18s cubic-bezier(.2, .9, .3, 1.4), box-shadow 0.18s;
+}
+.i3d-gloss { position: absolute; inset: 0; border-radius: inherit; overflow: hidden; pointer-events: none; z-index: 2; }
+.i3d-gloss::before { content: ''; position: absolute; left: 6%; right: 6%; top: 4%; height: 46%; border-radius: 40% 40% 50% 50% / 50% 50% 40% 40%; background: linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0)); }
+.i3d-gloss::after { content: ''; position: absolute; top: -30%; bottom: -30%; width: 34%; left: -60%; transform: rotate(18deg); background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.75), transparent); animation: i3dSweep 6s ease-in-out infinite; animation-delay: var(--sweep, 0s); }
+@keyframes i3dSweep { 0%, 70% { left: -60%; } 90%, 100% { left: 140%; } }
+.i3d-emoji { position: relative; z-index: 1; line-height: 1; filter: drop-shadow(0 3px 2px rgba(0, 0, 0, 0.35)); animation: i3dBob 3.8s ease-in-out infinite; animation-delay: var(--bob, 0s); }
+@keyframes i3dBob { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-2px) rotate(-5deg) scale(1.05); } }
+.i3d.still .i3d-emoji { animation: none; }
+.i3d.pulse { animation: i3dGlow 2.2s ease-in-out infinite; }
+@keyframes i3dGlow { 50% { box-shadow: inset 0 1.5px 1px rgba(255, 255, 255, 0.75), inset 0 -6px 10px rgba(0, 0, 0, 0.16), 0 1px 0 var(--d), 0 2px 0 var(--d), 0 3px 0 var(--d), 0 4px 0 var(--d), 0 5px 0 var(--d), 0 14px 20px -8px rgba(0, 0, 0, 0.55), 0 0 34px 6px var(--glow); } }
+.i3d-dot { position: absolute; top: -4px; right: -4px; z-index: 3; width: 13px; height: 13px; border-radius: 50%; background: #ff3b5c; border: 2.5px solid #1F150E; box-shadow: 0 0 10px #ff3b5c; animation: i3dDot 1.4s infinite; }
+@keyframes i3dDot { 50% { transform: scale(1.25); box-shadow: 0 0 2px #ff3b5c, 0 0 0 6px rgba(255, 59, 92, 0.18); } }
+/* нажатие: иконка «утапливается» */
+:active > .i3d, .i3d:active, :active > * > .i3d {
+  transform: perspective(260px) rotateX(0deg) translateY(3px);
+  box-shadow: inset 0 1.5px 1px rgba(255, 255, 255, 0.75), inset 0 -4px 8px rgba(0, 0, 0, 0.16), 0 1px 0 var(--d), 0 2px 0 var(--d), 0 6px 10px -6px rgba(0, 0, 0, 0.5);
+}
+/* цвета в палитре ВетДом */
+.i3d-cream  { --c1: #ffffff; --c2: #f1e6d6; --d: #c9b49a; --glow: rgba(255, 240, 210, 0.45); }
+.i3d-green  { --c1: #c9f29b; --c2: #6db436; --d: #3f7a18; --glow: rgba(124, 184, 66, 0.6); }
+.i3d-yellow { --c1: #fff08a; --c2: #ffc400; --d: #b88a00; --glow: rgba(255, 208, 0, 0.55); }
+.i3d-amber  { --c1: #f6d7ae; --c2: #c08a52; --d: #7d5430; --glow: rgba(201, 154, 99, 0.5); }
+.i3d-sky    { --c1: #c7ecff; --c2: #3aa0e6; --d: #1d5f93; --glow: rgba(125, 211, 252, 0.6); }
+.i3d-red    { --c1: #ffc2b8; --c2: #e8553f; --d: #8e2416; --glow: rgba(255, 90, 70, 0.6); }
+.i3d-purple { --c1: #e2d9ff; --c2: #9670f7; --d: #4c2a85; --glow: rgba(167, 139, 250, 0.6); }
+.i3d-teal   { --c1: #c3f3ef; --c2: #2fb3ac; --d: #145a57; --glow: rgba(43, 166, 160, 0.6); }
+.i3d-coffee { --c1: #b89474; --c2: #5a4331; --d: #2a1d14; --glow: rgba(176, 127, 72, 0.4); }
+.i3d-pink   { --c1: #ffd6ea; --c2: #f472b6; --d: #9d2667; --glow: rgba(249, 168, 212, 0.6); }
+
+/* Плитки разделов: наклон за пальцем и пробегающий блеск по всей плитке */
+.tilt3d { transform: perspective(700px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transform-style: preserve-3d; transition: transform 0.25s cubic-bezier(.2, .8, .2, 1), box-shadow .15s ease, filter .15s ease; }
+.tilt3d:active { transform: perspective(700px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(2px) scale(.97); }
+.tile-sweep { position: absolute; inset: 0; overflow: hidden; border-radius: inherit; pointer-events: none; z-index: 1; }
+.tile-sweep::after { content: ''; position: absolute; top: -40%; bottom: -40%; width: 28%; left: -50%; transform: rotate(18deg); background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.28), transparent); animation: i3dSweep 7s ease-in-out infinite; animation-delay: var(--sweep, 0s); }
+
+@media (prefers-reduced-motion: reduce) {
+  .i3d-gloss::after, .i3d-emoji, .i3d.pulse, .i3d-dot, .tile-sweep::after { animation: none !important; }
+}
+.no-motion .i3d-gloss::after, .no-motion .i3d-emoji, .no-motion .tile-sweep::after { animation: none !important; }

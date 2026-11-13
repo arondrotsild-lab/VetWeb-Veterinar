@@ -4,6 +4,7 @@ import { Empty, OrderCard, PageTitle, Segmented, Spinner, Stars, StatusChip } fr
 import { useVet } from '../lib/vet';
 import { acceptOrder, declineOrder, errText, getOrders, Order } from '../lib/api';
 import { rub, dateLong, time, speciesEmoji } from '../lib/format';
+import Icon3D from '../components/Icon3D';
 
 type Tab = 'new' | 'active' | 'history';
 
@@ -87,7 +88,7 @@ export default function OrdersPage() {
                 <div className="rounded-3xl border border-white/10 bg-white/[0.03] divide-y divide-white/[0.06] overflow-hidden">
                   {g.items.map((o) => (
                     <Link key={o.id} to={`/orders/${o.id}`} className="flex items-center gap-3 p-4 hover:bg-white/[0.04] transition-colors">
-                      <span className="w-11 h-11 rounded-2xl bg-white/[0.06] flex items-center justify-center text-xl flex-shrink-0">{speciesEmoji(o.pet_species)}</span>
+                      <Icon3D emoji={speciesEmoji(o.pet_species)} size={44} still />
                       <div className="flex-1 min-w-0">
                         <div className="font-bold leading-snug">{o.service_name} · {o.pet_name}</div>
                         <div className="text-xs text-white/45 leading-snug">{time(o.completed_at || o.scheduled_at)} · {o.client_name}</div>
